@@ -10,41 +10,39 @@
  *
  *   dict.search("a") => ["a", "bad", "cat"]
  *
- * @param words the array of words to construct the dictionary with
- * @returns a newly created dictionary
  */
-var Dictionary = function(words) {
-
+class Dictionary {
+	/**
+	 * 
+	 * @param words {string[]} the array of words to construct the dictionary with
+ 	 * @returns a newly created dictionary
+	 */
+	#words;
+	constructor(words) {
+		this.#words = words;
+	}
 	/**
 	 * Searches over this dictionary for the given query string. A word will
 	 * match if any substring of it matches the query. It is case-insensitive.
 	 *
-	 * @param query the substring to search for
+	 * @param {string} query the substring to search for
 	 * @returns an array of the results that contain the query substring
 	 */
-	this.search = function(query) {
-		var pattern = new RegExp(query, "i");
-		return $.grep(words, function(w) {
-			return pattern.test(w);
-		});
-	};
-
-	/**
-	 * Returns the total number of words in this dictionary
-	 *
-	 * @returns the number of words in this dictionary
-	 */
-	this.size = function() {
-		return words.length;
+	search(query) {
+		const pattern = new RegExp(query, "i");
+		return this.#words.filter((w) => pattern.test(w));
 	}
-
+	/**
+	 * @returns {number} the number of words in this dictionary
+	 */
+	size() {
+		return this.#words.length;
+	}
 	/**
 	 * Returns an array of all of the words in this dictionary
-	 *
-	 * @returns an array of all of the words in this dictionary
+	 * @returns {string[]} 
 	 */
-	this.all = function() {
-		return words;
+	all() {
+		return this.#words;
 	}
-
 }
