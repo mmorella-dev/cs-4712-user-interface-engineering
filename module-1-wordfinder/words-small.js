@@ -1,4 +1,4 @@
-const wordsSmall = [
+export default [
     "a",
     "able",
     "about",

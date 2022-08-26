@@ -46,3 +46,5 @@ class Dictionary {
 		return this.#words;
 	}
 }
+
+export default Dictionary;
