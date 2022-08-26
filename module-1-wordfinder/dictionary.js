@@ -12,12 +12,12 @@
  *
  */
 class Dictionary {
+	/** @type {string[]} */
+	#words;
 	/**
-	 * 
-	 * @param words {string[]} the array of words to construct the dictionary with
+	 * @param {string[]} words the array of words to construct the dictionary with
  	 * @returns a newly created dictionary
 	 */
-	#words;
 	constructor(words) {
 		this.#words = words;
 	}
@@ -26,11 +26,16 @@ class Dictionary {
 	 * match if any substring of it matches the query. It is case-insensitive.
 	 *
 	 * @param {string} query the substring to search for
-	 * @returns an array of the results that contain the query substring
+	 * @returns an array of words contain the query
 	 */
 	search(query) {
-		const pattern = new RegExp(query, "i");
-		return this.#words.filter((w) => pattern.test(w));
+		if (query == "") {
+			return [];
+		}
+		const results = this.#words.filter((w) => w.toLowerCase().includes(query.toLowerCase()));
+		results.sort((a, b) => a.toLowerCase().indexOf(query.toLowerCase()) - b.toLowerCase().indexOf(query.toLowerCase()));
+		return results;
+
 	}
 	/**
 	 * @returns {number} the number of words in this dictionary
