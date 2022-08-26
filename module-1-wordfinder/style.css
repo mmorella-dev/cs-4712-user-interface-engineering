@@ -1,0 +1,21 @@
+@font-face {
+    font-family: system-ui;
+    font-style: normal;
+    font-weight: 300;
+    src: local(".SFNSText-Light"), local(".HelveticaNeueDeskInterface-Light"), local(".LucidaGrandeUI"), local("Ubuntu Light"), local("Segoe UI Light"), local("Roboto-Light"), local("DroidSans"), local("Tahoma");
+  }
+
+body {
+    font: 1rem/1.6 system-ui;
+    max-width: 60ch;
+    margin: auto;
+}
+
+.output {
+    padding: 0.25rem;
+    height: 50vh;
+    overflow-y: scroll;
+    background-color: #eee;
+    border: 1px solid #aaa;
+    border-radius: 0.25rem;
+}
