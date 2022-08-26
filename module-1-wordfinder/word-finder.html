@@ -1,29 +1,25 @@
 <!DOCTYPE html>
 
-<!--
-  COLLABORATORS:
-  
--->
-
 <html>
-
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <title>Word Finder</title>
-  <script src="jquery-1.5.min.js"></script>
-  <script src="words-small.js"></script>
-  <script src="words-big.js"></script>
-  <script src="dictionary.js"></script>
-  <script src="app.js"></script>
   <link rel="stylesheet" href="style.css">
-
 </head>
-
 <body>
   <h1>Word Finder</h1>
-
-  <!-- Your HTML here -->
-
+  <p>
+    <label for="datalist">Insert a word to search:</label>
+    <input type="text" list="datalist" id="search-input" minlength="2">
+    <datalist id="datalist"></datalist>
+  </p>
+  <div class="output">
+    <p id="out-message"></p>
+    <ul id="out-words" aria-live="polite">
+      
+    </ul>
+  </div>
+  <script src="jquery-1.5.min.js"></script>
+  <script type="module" src="app.js"></script>
 </body>
-
 </html>
