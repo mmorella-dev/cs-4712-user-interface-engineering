@@ -19,7 +19,7 @@ const dictionary = new Dictionary(words);
 
 // Event listeners
 
-const handleSearchInput = throttle(function (ev) {
+const handleSearchInput = debounce(function (ev) {
     const query = this?.value.trim() ?? '';
     const results = dictionary.search(query);
     outputEl.innerHTML = results.join('\n');
@@ -29,7 +29,7 @@ const handleSearchInput = throttle(function (ev) {
     } else {
         messageEl.innerHTML = `Found <b>${count} results</b> containing <b>"${query}"</b>.`;
     }
-}, 300);
+}, 1000);
 
 searchInput.addEventListener('input', function () {
     messageEl.innerHTML = `Processing...`;
