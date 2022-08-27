@@ -29,13 +29,7 @@ class Dictionary {
 	 * @returns an array of words contain the query
 	 */
 	search(query) {
-		if (query == "") {
-			return [];
-		}
-		const results = this.#words.filter((w) => w.toLowerCase().includes(query.toLowerCase()));
-		results.sort((a, b) => a.toLowerCase().indexOf(query.toLowerCase()) - b.toLowerCase().indexOf(query.toLowerCase()));
-		return results;
-
+		return this.#words.filter((w) => w.toLowerCase().includes(query.toLowerCase()));
 	}
 	/**
 	 * @returns {number} the number of words in this dictionary
