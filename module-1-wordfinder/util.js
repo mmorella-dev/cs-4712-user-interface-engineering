@@ -15,6 +15,34 @@ const debounce = (callback, wait) => {
 }
 
 /**
+ * 
+ * @param {(any) => (any)} callback 
+ * @param {number} wait in ms
+ * @param {boolean?} immediate Whether to invoke the 
+ * @returns 
+ */
+const throttle = (callback, wait, immediate = false) => {
+  let timeoutId = null;
+  let initialCall = true;
+  
+  return (...args) => {
+    const next = () => {
+      callback.apply(this, args);
+      timeoutId = null;
+    }
+    if (immediate && initialCall) { 
+      initialCall = false;
+      next();
+    }
+    if (!timeoutId) {
+      timeoutId = setTimeout(next, wait);
+    }
+  }
+}
+
+
+
+/**
  *
  * @param {string} tagName
  * @param {string} innerHTML
@@ -38,4 +66,4 @@ const removeAllChildNodes = (parent) => {
   }
 }
 
-export { removeAllChildNodes, debounce, createElementUnsafe }
+export { removeAllChildNodes, debounce, throttle, createElementUnsafe }

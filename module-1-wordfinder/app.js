@@ -1,6 +1,6 @@
 import Dictionary from './Dictionary.js';
 
-import { debounce, removeAllChildNodes, createElementUnsafe } from "./util.js";
+import { throttle, removeAllChildNodes, createElementUnsafe } from "./util.js";
 
 // /** @type {HTMLInputElement} */ 
 // const datalistEl = document.getElementById("datalist");
@@ -20,9 +20,13 @@ const handleSearchInput = (ev) => {
     const query = inputEl?.value.trim();
     const results = dict.search(query);
     setOutput(results);
-    setMessage(`Found <b>${results.length < MAX_DISPLAY ? results.length : MAX_DISPLAY + "+"}</b> containing <b>"${query}"</b>.</b>`)
+    setMessage(`Found <b>${results.length < MAX_DISPLAY ? results.length : MAX_DISPLAY + "+"} results</b> containing <b>"${query}"</b>.</b>`)
 }
-inputEl?.addEventListener("input", debounce(handleSearchInput, 500));
+const debounced = throttle(handleSearchInput, 300);
+inputEl?.addEventListener("input", () => {
+    debounced();
+    setMessage(`Processing...`);
+});
 
 const outMessageEl = document.getElementById("out-message");
 const outputEl = document.getElementById("out-words");
@@ -46,7 +50,7 @@ const setOutput = (results) => {
         outputEl?.appendChild(li);
     }
     if (results.length > MAX_DISPLAY) {
-        const li = createElementUnsafe("li", `and <b>${results.length - MAX_DISPLAY}</b> more...`);
+        const li = createElementUnsafe("li", `<b>${results.length - MAX_DISPLAY}</b> more results not shown.`);
         outputEl?.appendChild(li);
     }
 }
