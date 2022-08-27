@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "serve": "live-server"
+    "start": "live-server"
   },
   "devDependencies": {
     "@types/jquery": "^3.5.14",
