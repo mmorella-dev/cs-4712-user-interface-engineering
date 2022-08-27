@@ -25,9 +25,9 @@ const throttle = (callback, wait, immediate = false) => {
   let timeoutId = null;
   let initialCall = true;
   
-  return (...args) => {
+  return function() {
     const next = () => {
-      callback.apply(this, args);
+      callback.apply(this, arguments);
       timeoutId = null;
     }
     if (immediate && initialCall) { 

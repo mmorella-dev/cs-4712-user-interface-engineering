@@ -1,21 +1,29 @@
 @font-face {
-    font-family: system-ui;
-    font-style: normal;
-    font-weight: 300;
-    src: local(".SFNSText-Light"), local(".HelveticaNeueDeskInterface-Light"), local(".LucidaGrandeUI"), local("Ubuntu Light"), local("Segoe UI Light"), local("Roboto-Light"), local("DroidSans"), local("Tahoma");
-  }
-
-body {
-    font: 1rem/1.6 system-ui;
-    max-width: 60ch;
-    margin: auto;
+  font-family: system-ui;
+  font-style: normal;
+  font-weight: 300;
+  src: local('.SFNSText-Light'), local('.HelveticaNeueDeskInterface-Light'),
+    local('.LucidaGrandeUI'), local('Ubuntu Light'), local('Segoe UI Light'),
+    local('Roboto-Light'), local('DroidSans'), local('Tahoma');
 }
 
-.output {
-    padding: 0.25rem;
-    height: 50vh;
-    overflow-y: scroll;
-    background-color: #eee;
-    border: 1px solid #aaa;
-    border-radius: 0.25rem;
+body {
+  font: 1rem/1.6 system-ui;
+  max-width: 60ch;
+  margin: auto;
+}
+
+.input {
+  display: flex;
+  gap: 1rem;
+}
+
+.input input {
+  flex: 1;
+}
+
+#out-words {
+  margin: 1px;
+  width: 100% !important;
+  height: 50vh;
 }

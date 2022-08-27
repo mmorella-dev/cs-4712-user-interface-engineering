@@ -13,20 +13,24 @@ const { default: words } = await import('./words-large.js');
 // }
 
 const dict = new Dictionary(words);
-const MAX_DISPLAY = 1000;
 
 const inputEl = document.getElementById("search-input");
-const handleSearchInput = (ev) => {
-    const query = inputEl?.value.trim();
+
+
+const handleSearchInput = function(ev) {
+    const query = this?.value.trim() || "";
     const results = dict.search(query);
     setOutput(results);
-    setMessage(`Found <b>${results.length < MAX_DISPLAY ? results.length : MAX_DISPLAY + "+"} results</b> containing <b>"${query}"</b>.</b>`)
+    const count = results.length.toLocaleString();
+    if (!query) {
+        setMessage(`Showing all <b>${count} words.</b>`)
+    } else {
+        setMessage(`Found <b>${count} results</b> containing <b>"${query}"</b>.`);
+    }
 }
 const debounced = throttle(handleSearchInput, 300);
-inputEl?.addEventListener("input", () => {
-    debounced();
-    setMessage(`Processing...`);
-});
+inputEl?.addEventListener("input", debounced);
+inputEl?.addEventListener("input", () => setMessage(`Processing...`));
 
 const outMessageEl = document.getElementById("out-message");
 const outputEl = document.getElementById("out-words");
@@ -40,21 +44,13 @@ const setMessage = (msgHTML) => {
  * @returns 
  */ 
 const setOutput = (results) => {
-    if (outputEl?.children.length == results.length) {
-        // just assume nothing changed
-        return;
-    }
-    removeAllChildNodes(outputEl);
-    for (let i = 0; i < Math.min(results.length, MAX_DISPLAY); i++) {
-        const li = createElementUnsafe("li", results[i]);
-        outputEl?.appendChild(li);
-    }
-    if (results.length > MAX_DISPLAY) {
-        const li = createElementUnsafe("li", `<b>${results.length - MAX_DISPLAY}</b> more results not shown.`);
-        outputEl?.appendChild(li);
-    }
+    outputEl.innerHTML = results.join("\n");
 }
 
-
+const clearButtonEl = document.querySelector("#clear-button");
+clearButtonEl.addEventListener("click", () => {
+    inputEl.value = "";
+    handleSearchInput();
+})
 
 handleSearchInput();
