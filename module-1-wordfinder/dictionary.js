@@ -22,6 +22,17 @@ class Dictionary {
 		this.#words = words;
 	}
 	/**
+	 * 
+	 * @param {string} word 
+	 * @param {string} query 
+	 */
+	static highlightMatch(word, query) {
+		const start = word.toLowerCase().indexOf(query.toLowerCase());
+		if (!query || start == -1) return word;
+		const end = start + query.length;
+		return `${word.slice(0, start)}<mark>${word.slice(start, end)}</mark>${word.slice(end)}`;
+	}
+	/**
 	 * Searches over this dictionary for the given query string. A word will
 	 * match if any substring of it matches the query. It is case-insensitive.
 	 *
@@ -29,7 +40,11 @@ class Dictionary {
 	 * @returns an array of words contain the query
 	 */
 	search(query) {
-		return this.#words.filter((w) => w.toLowerCase().includes(query.toLowerCase()));
+		const indexOf = (str, search) => str.toLowerCase().indexOf(search);
+		return this.#words
+		.filter((w) => indexOf(w, query) != -1)
+		.sort((a, b) => indexOf(a, query) - indexOf(b, query))
+		.map((w) => Dictionary.highlightMatch(w, query));
 	}
 	/**
 	 * @returns {number} the number of words in this dictionary

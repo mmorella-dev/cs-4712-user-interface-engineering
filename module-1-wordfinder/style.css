@@ -23,7 +23,17 @@ body {
 }
 
 #out-words {
+  border: 1px solid #888;
+  background-color: #f8f8f8;
+  padding: 0.25rem;
+  border-radius: 0.25rem;
+  overflow-y: scroll;
+  font-size: 0.8rem;
   margin: 1px;
   width: 100% !important;
   height: 50vh;
+}
+
+mark {
+  font-weight: bold;
 }
