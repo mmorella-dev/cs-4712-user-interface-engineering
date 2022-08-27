@@ -1,56 +1,43 @@
 import Dictionary from './Dictionary.js';
+import { throttle, removeAllChildNodes, createElementUnsafe } from './util.js';
 
-import { throttle, removeAllChildNodes, createElementUnsafe } from "./util.js";
+// Initialize HTML elements
 
-// /** @type {HTMLInputElement} */ 
-// const datalistEl = document.getElementById("datalist");
+/** @type {HTMLInputElement?} */
+const searchInput = document.querySelector('input#search-input');
+/** @type {HTMLButtonElement?} */
+const clearButton = document.querySelector('button#clear-button');
+const messageEl = document.querySelector('#out-message');
+const outputEl = document.querySelector('#out-words');
+if (!searchInput || !messageEl || !outputEl || !clearButton)
+    throw new Error('DOM ID does not exist.');
+
+// Parse long word list
 
 const { default: words } = await import('./words-large.js');
-// for (const word of words) {
-//     const optionEl = document.createElement("option");
-//     optionEl.innerText = word;
-//     datalistEl?.appendChild(optionEl);
-// }
+const dictionary = new Dictionary(words);
 
-const dict = new Dictionary(words);
+// Event listeners
 
-const inputEl = document.getElementById("search-input");
-
-
-const handleSearchInput = function(ev) {
-    const query = this?.value.trim() || "";
-    const results = dict.search(query);
-    setOutput(results);
+const handleSearchInput = throttle(function (ev) {
+    const query = this?.value.trim() ?? '';
+    const results = dictionary.search(query);
+    outputEl.innerHTML = results.join('\n');
     const count = results.length.toLocaleString();
     if (!query) {
-        setMessage(`Showing all <b>${count} words.</b>`)
+        messageEl.innerHTML = `Showing all <b>${count} words.</b>`;
     } else {
-        setMessage(`Found <b>${count} results</b> containing <b>"${query}"</b>.`);
+        messageEl.innerHTML = `Found <b>${count} results</b> containing <b>"${query}"</b>.`;
     }
-}
-const debounced = throttle(handleSearchInput, 300);
-inputEl?.addEventListener("input", debounced);
-inputEl?.addEventListener("input", () => setMessage(`Processing...`));
+}, 300);
 
-const outMessageEl = document.getElementById("out-message");
-const outputEl = document.getElementById("out-words");
-
-
-const setMessage = (msgHTML) => {
-    outMessageEl.innerHTML = msgHTML;
-}
-/**
- * @param {string[]} results 
- * @returns 
- */ 
-const setOutput = (results) => {
-    outputEl.innerHTML = results.join("\n");
-}
-
-const clearButtonEl = document.querySelector("#clear-button");
-clearButtonEl.addEventListener("click", () => {
-    inputEl.value = "";
-    handleSearchInput();
-})
-
+searchInput.addEventListener('input', function () {
+    messageEl.innerHTML = `Processing...`;
+    handleSearchInput.apply(this, arguments);
+});
 handleSearchInput();
+
+clearButton.addEventListener('click', () => {
+    searchInput.value = '';
+    handleSearchInput();
+});
