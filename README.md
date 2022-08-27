@@ -2,6 +2,10 @@
 
 Code written for CS 4712 at Kennesaw State University.
 
+## Subpages
+
+* [Word Finder](module-1-wordfinder/)
+
 ## Usage
 
 ```sh
