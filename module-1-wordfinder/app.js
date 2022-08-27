@@ -1,5 +1,5 @@
 import Dictionary from './Dictionary.js';
-import { throttle, removeAllChildNodes, createElementUnsafe } from './util.js';
+import { debounce, removeAllChildNodes, createElementUnsafe } from './util.js';
 
 // Initialize HTML elements
 
